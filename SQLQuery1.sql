@@ -2,7 +2,7 @@ create database telecom ;
 go
 use telecom ;
 go 
-
+--  انشاء الجدول
 CREATE TABLE Customers ( 
 customerID VARCHAR(20)PRIMARY KEY 
 , gender VARCHAR(10), 
@@ -29,7 +29,7 @@ Churn VARCHAR(3) );
 
 
 
-
+-- استراد من ملف CSV
 BULK INSERT Customers
 FROM 'C:\Users\EHS\OneDrive\Desktop\Project-D_A\archive\WA_Fn-UseC_-Telco-Customer-Churn.csv'
 WITH (
@@ -39,16 +39,15 @@ WITH (
 );
 
 
-
-
+--  التاكد ان كله  رجع 
 SELECT * FROM Customers 
 
 
 
-
+-- حل مشكله NULL  في عمود TotalCharges
 UPDATE Customers 
 SET TotalCharges =0 WHERE tenure=0 
-
+-- تحديث العمود الي ارقام 
 alter table Customers alter column 
 TotalCharges DECIMAL(10,2)
 -- check Duplicate 
@@ -88,7 +87,3 @@ WHERE InternetService = 'No'
   where Churn =  'Yes'
 
 
-  --ما هو تأثير نوع العقد (Contract) على معدل التسرب؟
- select [Contract] , count (*)   FROM Customers 
-  where Churn =  'Yes'
-  group by [ Contract ]
